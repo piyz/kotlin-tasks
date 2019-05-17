@@ -30,3 +30,11 @@ Add the negation before the whole call (right before 'any', 'all' or 'none') whe
 task7
 
 Mastermind in a functional style
+
+task8
+
+A string is nice if at least two of the following conditions are satisfied:
+1. It doesn't contain substrings bu, ba or be;
+2. It contains at least three vowels (vowels are a, e, i, o and u);
+3. It contains a double letter (at least two similar letters following one another), like b in "abba".
+Check whether a given string is nice.
