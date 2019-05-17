@@ -15,3 +15,14 @@ task4
 
 Add and implement an extension function 'isEmptyOrNull()' on the type String?.
 It should return true, if the string is null or empty.
+
+task5
+
+Declare the s variable to make the first line print null
+and the second one throw an exception
+
+task6
+
+Functions 'all', 'none' and 'any' are interchangeable, you can use one or the other to implement the same functionality.
+Implement the functions 'allNonZero' and 'containsZero' using all three predicates in turn. 'allNonZero' checks that all the elements in the list are non-zero; 'containsZero' checks that the list contains zero element.
+Add the negation before the whole call (right before 'any', 'all' or 'none') when necessary, not only inside the predicate.
