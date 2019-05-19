@@ -80,3 +80,8 @@ Check whether no more than 20% of the drivers contribute 80% of the income. The 
 For example, if there're 39 drivers in the taxi park, we need to check that no more than 20% of the most successful ones, which is seven drivers (39 * 0.2 = 7.8), contribute at least 80% of the total income. Note that eight drivers out of 39 is 20.51% which is more than 20%, so we check the income of seven the most successful drivers.
 
 To find the total income sum up all the trip costs. Note that the discount is already applied while calculating the cost.
+
+**task10**
+
+Implement the property 'foo' so that it produced a different value on each access.
+Note that you can modify the code outside the 'foo' getter (e.g. add additional imports or properties).
