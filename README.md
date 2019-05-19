@@ -85,3 +85,9 @@ To find the total income sum up all the trip costs. Note that the discount is al
 
 Implement the property 'foo' so that it produced a different value on each access.
 Note that you can modify the code outside the 'foo' getter (e.g. add additional imports or properties).
+
+**task11**
+
+Without modifying the class 'A' complete the code in 'main' so that
+an exception UninitializedPropertyAccessException was thrown.
+Then fix the newly added code in 'main' so that no exception was thrown.
