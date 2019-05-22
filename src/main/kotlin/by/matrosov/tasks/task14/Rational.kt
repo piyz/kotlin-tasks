@@ -30,12 +30,14 @@ data class Rational (val n: BigInteger, val d: BigInteger){
     }
     operator fun compareTo(rational: Rational): Int {
         if (this.d == rational.d){
+            if (this.n == rational.n) return 0
             if (this.n < rational.n) return -1
             return 1
         }
 
         val a = this.n * rational.d
         val b = rational.n * this.d
+        if (a == b) return 0
         if (a < b) return -1
         return 1
     }
@@ -46,6 +48,13 @@ data class Rational (val n: BigInteger, val d: BigInteger){
         if (b == 1.toBigInteger()) return a.toString()
 
         val gcd = a.gcd(b)
+
+        if(b/gcd == 1.toBigInteger()) return (a/gcd).toString()
+
+        if (((a/gcd).toString().contains("-") && (b/gcd).toString().contains("-")) || (b/gcd).toString().contains("-")){
+            return (-a/gcd).toString() + "/" + (-b/gcd).toString()
+        }
+
         return (a/gcd).toString() + "/" + (b/gcd).toString()
     }
     override fun toString(): String = rationalToStringConverter(n, d)
@@ -57,7 +66,7 @@ data class Rational (val n: BigInteger, val d: BigInteger){
     }
 }
 
-private infix fun Number.divBy(i: Number): Rational {
+infix fun Number.divBy(i: Number): Rational {
 
     fun Long.toBigInteger(): BigInteger = BigInteger.valueOf(this)
     fun Int.toBigInteger(): BigInteger = BigInteger.valueOf(toLong())
@@ -69,14 +78,15 @@ private infix fun Number.divBy(i: Number): Rational {
 
     return Rational(this as BigInteger, i as BigInteger)
 }
-
-private fun String.toRational(): Rational {
+fun String.toRational(): Rational {
     val s = this.split("/")
+
+    if (s.size == 1) return Rational(s[0].toBigInteger(), 1.toBigInteger())
+
     return Rational(s[0].toBigInteger(), s[1].toBigInteger())
 }
-
-private operator fun Pair<Rational, Rational>.contains(rational: Rational): Boolean {
-    if (this.first < rational && rational < this.second) return true
+operator fun Pair<Rational, Rational>.contains(rational: Rational): Boolean {
+    if (rational >= this.first && rational <= this.second) return true
     return false
 }
 
