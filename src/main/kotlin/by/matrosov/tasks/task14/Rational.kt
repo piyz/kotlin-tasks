@@ -1,83 +1,33 @@
 package by.matrosov.tasks.task14
 
-data class Rational (val n: Long, val d: Long) {
+import java.math.BigInteger
 
-    private fun rationalToStringConverter(n1: Long, d1: Long): String{
-
-        if (d1 == 1L) return "$n1"
-
-        var a = n1
-        if (n1 < 0) a = -n1
-        var b = d1
-
-        if (a > b){
-
-            for (i in 2..b){
-                if (a % i == 0L && b % i == 0L){
-
-                    a /= i
-                    b /= i
-
-                    return rationalToStringConverter(a, b)
-                }
-            }
-            if (n < 0) return "-$a/$b"
-            return "$a/$b"
-
-
-        }else if(b > a){
-
-            for (i in 2..a){
-                if (a % i == 0L && b % i == 0L){
-
-                    a /= i
-                    b /= i
-
-                    return rationalToStringConverter(a, b)
-                }
-            }
-            if (n < 0) return "-$a/$b"
-            return "$a/$b"
-        }
-
-        return "1"
-    }
-
+data class Rational (val n: BigInteger, val d: BigInteger){
     operator fun plus(rational: Rational): Rational {
-        val d = this.d * rational.d
-        val n = d / this.d * this.n + d / rational.d * rational.n
-
-        return Rational(n, d)
+        val b = this.d * rational.d
+        val a = b/this.d * this.n + b/rational.d * rational.n
+        return Rational(a, b)
     }
-
     operator fun minus(rational: Rational): Rational {
-        val d = this.d * rational.d
-        val n = d / this.d * this.n - d / rational.d * rational.n
-
-        return Rational(n, d)
+        val b = this.d * rational.d
+        val a = b/this.d * this.n - b/rational.d * rational.n
+        return Rational(a, b)
     }
-
     operator fun times(rational: Rational): Rational {
-        val d = this.d * rational.d
-        val n = this.n * rational.n
-
-        return Rational(n, d)
+        val b = this.d * rational.d
+        val a = this.n * rational.n
+        return Rational(a, b)
     }
-
     operator fun div(rational: Rational): Rational {
-        val d = this.d * rational.n
-        val n = this.n * rational.d
-
-        return Rational(n, d)
+        val b = this.d * rational.n
+        val a = this.n * rational.d
+        return Rational(a, b)
     }
-
     operator fun unaryMinus(): Rational {
-        val d = this.d
-        val n = -this.n
-
-        return Rational(n, d)
+        val b = this.d
+        val a = -this.n
+        return Rational(a, b)
     }
-
     operator fun compareTo(rational: Rational): Int {
         if (this.d == rational.d){
             if (this.n < rational.n) return -1
@@ -85,40 +35,49 @@ data class Rational (val n: Long, val d: Long) {
         }
 
         val a = this.n * rational.d
-        val b = this.d * rational.n
+        val b = rational.n * this.d
         if (a < b) return -1
         return 1
     }
-
     operator fun rangeTo(rational: Rational): Pair<Rational, Rational> {
         return Pair(this, rational)
     }
+    private fun rationalToStringConverter(a: BigInteger, b: BigInteger): String{
+        if (b == 1.toBigInteger()) return a.toString()
 
+        val gcd = a.gcd(b)
+        return (a/gcd).toString() + "/" + (b/gcd).toString()
+    }
     override fun toString(): String = rationalToStringConverter(n, d)
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other?.javaClass != javaClass) return false
-
         if (this.toString() != other.toString()) return false
-
         return true
     }
-
 }
 
-operator fun Pair<Rational, Rational>.contains(rational: Rational): Boolean {
-    if (rational > this.first && rational < this.second) return true
+private infix fun Number.divBy(i: Number): Rational {
+
+    fun Long.toBigInteger(): BigInteger = BigInteger.valueOf(this)
+    fun Int.toBigInteger(): BigInteger = BigInteger.valueOf(toLong())
+
+    when (i) {
+        is Int -> return Rational(this.toInt().toBigInteger(), i.toBigInteger())
+        is Long -> return Rational(this.toLong().toBigInteger(), i.toBigInteger())
+    }
+
+    return Rational(this as BigInteger, i as BigInteger)
+}
+
+private fun String.toRational(): Rational {
+    val s = this.split("/")
+    return Rational(s[0].toBigInteger(), s[1].toBigInteger())
+}
+
+private operator fun Pair<Rational, Rational>.contains(rational: Rational): Boolean {
+    if (this.first < rational && rational < this.second) return true
     return false
-}
-
-infix fun Number.divBy(i: Number): Rational {
-    return Rational(this.toLong(), i.toLong())
-}
-
-fun String.toRational(): Rational {
-    val r = this.split("/")
-    return Rational(r[0].toLong(), r[1].toLong())
 }
 
 fun main() {
@@ -154,6 +113,3 @@ fun main() {
     println("912016490186296920119201192141970416029".toBigInteger() divBy
             "1824032980372593840238402384283940832058".toBigInteger() == 1 divBy 2)
 }
-
-
-
