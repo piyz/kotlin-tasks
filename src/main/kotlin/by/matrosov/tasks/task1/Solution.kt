@@ -4,23 +4,7 @@ Implement the function that checks whether a string is a valid identifier. A val
 starts with a letter or underscore and consists of only letters, digits and underscores.
  */
 
-fun isValidIdentifier(s: String): Boolean {
-
-    if (s.isEmpty()) return false
-
-    if (s[0].toInt() !in 97..122 &&
-            s[0].toInt() !in 65..90 &&
-                s[0].toInt() != 95) return false
-
-    for (char in s.substring(1)){
-        if (char.toInt() !in 97..122 &&
-                char.toInt() !in 65..90 &&
-                    char.toInt() !in 48..57 &&
-                        char.toInt() != 95) return false
-    }
-
-    return true
-}
+fun isValidIdentifier(s: String): Boolean = '$' !in s && s in "a".."z" || "_" in s
 
 fun main(args: Array<String>) {
     println(isValidIdentifier("name"))   // true
